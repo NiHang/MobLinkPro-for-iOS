@@ -13,7 +13,7 @@
  请求Token 类型
 
  @param authCode 授权返回的authCode
- @param getUserinfo 继续获取用户信息
+ @param ^getUserinfo 继续获取用户信息
  */
 typedef void(^SSDKRequestTokenOperation)(NSString *authCode, void(^getUserinfo)(NSString *uid, NSString *token));
 
@@ -21,7 +21,7 @@ typedef void(^SSDKRequestTokenOperation)(NSString *authCode, void(^getUserinfo)(
  刷新Token 类型
 
  @param uid 当前请求的用户id
- @param getUserinfo 继续获取用户信息
+ @param ^getUserinfo 继续获取用户信息
  */
 typedef void(^SSDKRefreshTokenOperation)(NSString *uid, void(^getUserinfo)(NSString *token));
 

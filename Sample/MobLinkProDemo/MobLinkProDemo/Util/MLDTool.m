@@ -212,8 +212,6 @@
             switch (state) {
                 case SSDKResponseStateSuccess:
                 {
-                    [self showAlertWithMessage:@"授权成功！"];
-
                     [ShareSDK share:SSDKPlatformTypeFacebook parameters:[self.paramsCache mutableCopy] onStateChanged:^(SSDKResponseState state, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error) {
                         switch (state)
                         {
@@ -282,7 +280,8 @@
                                       attachments:nil
                                        recipients:@[@"15757870542"]
                                              type:SSDKContentTypeText];
-            
+            [params SSDKSetupFacebookParamsByText:[NSString stringWithFormat:@"MobLink 一键唤醒 %@ 移动端场景还原解决方案", domainUrlStr] image:sImage url:nil urlTitle:@"MobLink 一键唤醒" urlName:nil attachementUrl:nil hashtag:nil quote:nil type:SSDKContentTypeImage];
+            self.paramsCache = params.copy;
             [self shareWithParams:params onView:onView];
         }
     } onStateChanged:nil];

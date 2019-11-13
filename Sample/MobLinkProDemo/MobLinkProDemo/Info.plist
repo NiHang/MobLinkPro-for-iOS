@@ -19,7 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.3.0</string>
+	<string>3.3.2</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -29,8 +29,9 @@
 			<string>mobtool_qq</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>QQ41eaeb2b</string>
+				<string>tencent1105914667</string>
 				<string>QQ41E44574</string>
-				<string>tencent1109411100</string>
 			</array>
 		</dict>
 		<dict>
@@ -50,6 +51,7 @@
 			<string>mobtool_sinaweibo</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>wb568898243</string>
 				<string>wb474962333</string>
 			</array>
 		</dict>
@@ -99,7 +101,9 @@
 	<string>148252749452354</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>weixinULAPI</string>
 		<string>wechat</string>
+		<string>fbapi</string>
 		<string>weixin</string>
 		<string>mqzoneopensdk</string>
 		<string>mqzoneopensdkapi</string>
@@ -155,6 +159,25 @@
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
+	</dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>从手机相册中选择</string>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<true/>
+		<key>UISceneConfigurations</key>
+		<dict>
+			<key>UIWindowSceneSessionRoleApplication</key>
+			<array>
+				<dict>
+					<key>UISceneConfigurationName</key>
+					<string>Default Configuration</string>
+					<key>UISceneDelegateClassName</key>
+					<string>SceneDelegate</string>
+				</dict>
+			</array>
+		</dict>
 	</dict>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

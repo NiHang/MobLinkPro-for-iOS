@@ -10,7 +10,7 @@
 
 #import "AppDelegate.h"
 #import "MLDMainViewController.h"
-
+#import "MOBApplication.h"
 @interface MLDGuideViewController ()<UIScrollViewDelegate>
 
 @property (nonatomic, strong) UIPageControl *pageControl;
@@ -155,10 +155,8 @@
 
 - (void)enterToMainViewController
 {
-    AppDelegate *appdelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    appdelegate.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    appdelegate.window.backgroundColor = [UIColor whiteColor];
-    appdelegate.window.rootViewController = [[MLDMainViewController alloc] init];
+   
+    [MOBApplication sharedApplication].window.rootViewController = [[MLDMainViewController alloc] init];
     
     CATransition *animation = [CATransition animation];
     
@@ -172,9 +170,9 @@
     
     animation.fillMode = kCAFillModeForwards;
     
-    [appdelegate.window.layer addAnimation:animation forKey:nil];
+    [[MOBApplication sharedApplication].window.layer addAnimation:animation forKey:nil];
     
-    [appdelegate.window makeKeyAndVisible];
+    [[MOBApplication sharedApplication].window makeKeyAndVisible];
 }
 
 #pragma mark - scrollview delegate

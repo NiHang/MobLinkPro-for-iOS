@@ -243,7 +243,9 @@
     NSString *cacheMobid = [[MLDTool shareInstance] mobidForKeyPath:path];
     NSString *title = @"MobLink 邀请你一起来玩";
     NSString *text = @"聚会一起玩，大家一起找卧底";
-    NSString *image = @"AppIcon";
+    NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
+    NSArray *iconsArr = infoDict[@"CFBundleIcons"][@"CFBundlePrimaryIcon"][@"CFBundleIconFiles"];
+    NSString *image = [iconsArr lastObject];
     
     if (cacheMobid)
     {

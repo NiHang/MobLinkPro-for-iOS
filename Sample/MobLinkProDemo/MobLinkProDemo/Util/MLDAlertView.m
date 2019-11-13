@@ -223,7 +223,7 @@
     _alertWindow.windowLevel = UIWindowLevelAlert;
 //    [_alertWindow makeKeyAndVisible];
     _alertWindow.hidden = NO;
-    
+    [[MOBApplication sharedApplication] showWindow:_alertWindow];
     [_alertWindow addSubview:self];
     
     switch (style)

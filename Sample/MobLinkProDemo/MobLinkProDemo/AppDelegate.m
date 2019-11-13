@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
+#import "MOBApplication.h"
 #import "MLDMainViewController.h"
 #import "MLDGuideViewController.h"
 #import "MLDUserManager.h"
@@ -27,68 +27,68 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
-    
     self.guideSemaphore = dispatch_semaphore_create(0);
     self.guideQueue = dispatch_queue_create("MLDGuideQueue", DISPATCH_QUEUE_SERIAL);
     self.isAlreadyRun = NO;
     
     [[MLDUserManager sharedManager] loginUser];
-    
-    if ([MLDGuideViewController isFirstRun])
-    {
-        self.window.rootViewController = [[MLDGuideViewController alloc] init];
-    }
-    else
-    {
-        self.window.rootViewController = [[MLDMainViewController alloc] init];
-    }
-    
-    // 配置 navigation bar
-    [self setupNavigationBar];
-    
     [MobLink setDelegate:self];
     
     MLSDKScene *scene = [MLSDKScene sceneForPath:@"/demo/test/123" params:@{@"key11": @"value11"}];
     [MobLink getMobId:scene result:^(NSString * _Nullable mobid, NSString * _Nullable domain, NSError * _Nullable error) {
         NSLog(@"------> mobid: %@  domain:%@", mobid, domain);
     }];
-    
+    if (![MOBApplication sharedApplication].isSceneApp) {
+        self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        self.window.backgroundColor = [UIColor whiteColor];
+        [self.window makeKeyAndVisible];
+        if ([MLDGuideViewController isFirstRun])
+        {
+            self.window.rootViewController = [[MLDGuideViewController alloc] init];
+        }
+        else
+        {
+            self.window.rootViewController = [[MLDMainViewController alloc] init];
+        }
+        
+    }
+
+    [[MOBApplication sharedApplication] addBeforeWindowEvent:^(MOBApplication * _Nonnull application) {
+        [self setupNavigationBar];
+    }];
     return YES;
 }
 
 - (void)IMLSDKWillRestoreScene:(MLSDKScene *)scene Restore:(void (^)(BOOL, RestoreStyle))restoreHandler
 {
-    dispatch_async(self.guideQueue, ^{
-        if (!self.isAlreadyRun)
-        {
-            dispatch_semaphore_wait(self.guideSemaphore, DISPATCH_TIME_FOREVER);
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            restoreHandler(YES, MLPush);
-        });
-    });
-    // 发送场景还原记录
-    if (scene.params && [scene.params isKindOfClass:[NSDictionary class]])
-    {
-        NSString *otherId = scene.params[@"id"];
-        if (otherId)
-        {
-            MLDSceneType sourceType = MLDSceneTypeOthers;
-            if (scene.params[@"scene"])
+        dispatch_async(self.guideQueue, ^{
+            if (!self.isAlreadyRun)
             {
-                sourceType = [scene.params[@"scene"] integerValue];
+                dispatch_semaphore_wait(self.guideSemaphore, DISPATCH_TIME_FOREVER);
             }
-            [[MLDNetworkManager sharedManager] sendSceneLogWithCurrentUserID:[MLDUserManager sharedManager].currentUserId otherUserID:otherId sourceType:sourceType completion:^(BOOL success) {
-                if (success)
+            dispatch_async(dispatch_get_main_queue(), ^{
+                restoreHandler(YES, MLPush);
+            });
+        });
+        // 发送场景还原记录
+        if (scene.params && [scene.params isKindOfClass:[NSDictionary class]])
+        {
+            NSString *otherId = scene.params[@"id"];
+            if (otherId)
+            {
+                MLDSceneType sourceType = MLDSceneTypeOthers;
+                if (scene.params[@"scene"])
                 {
-                    NSLog(@"上传场景记录成功");
+                    sourceType = [scene.params[@"scene"] integerValue];
                 }
-            }];
+                [[MLDNetworkManager sharedManager] sendSceneLogWithCurrentUserID:[MLDUserManager sharedManager].currentUserId otherUserID:otherId sourceType:sourceType completion:^(BOOL success) {
+                    if (success)
+                    {
+                        NSLog(@"上传场景记录成功");
+                    }
+                }];
+            }
         }
-    }
 }
 
 - (void)setupNavigationBar

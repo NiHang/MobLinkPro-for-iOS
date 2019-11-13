@@ -8,7 +8,7 @@
 
 #ifndef MobLinkDemo_pch
 #define MobLinkDemo_pch
-
+#import "MOBApplication.h"
 #import <MOBFoundation/MOBFoundation.h>
 
 #import "MLDDefine.h"
