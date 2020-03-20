@@ -13,6 +13,8 @@
 #define AlertText_H     150.0f
 #define AlertBtn_H      40.0f
 
+static UIWindow * alertGlobeWindow = nil;
+
 @interface MLDAlertView()
 
 @property (copy, nonatomic) MLDAlertClickButtonBlock block;
@@ -192,6 +194,7 @@
 {
     _alertWindow.hidden = YES;
     [self removeFromSuperview];
+    alertGlobeWindow = nil;
 }
 
 
@@ -224,7 +227,8 @@
 
     _alertWindow.hidden = NO;
     [_alertWindow showOnCurrentScene];
-
+    [_alertWindow addSubview:self];
+    alertGlobeWindow = _alertWindow;
     
     switch (style)
     {

@@ -339,6 +339,7 @@ typedef enum : NSUInteger {
         if (_isSceneApp && _hookSceneStatus == SSDKScenePackageSceneHookStatusNeed) {
             [self _scene_init];
             [self _scene_setDelegate];
+            [self _scene_windowHit];
             _hookSceneStatus = SSDKScenePackageSceneHookStatusDone;
         }
     }
@@ -463,7 +464,7 @@ typedef enum : NSUInteger {
 
 - (void)methodSwizzledApplication{
     [self _application_setDelegate];
-    [self _scene_windowHit];
+    
 }
 @end
 
